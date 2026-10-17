@@ -1,0 +1,31 @@
+server:
+  port: ${SERVER_PORT:8082}
+
+spring:
+  application:
+    name: plazoleta-service
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:plazoleta_db}?createDatabaseIfNotExist=true&serverTimezone=UTC
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:root}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  jackson:
+    deserialization:
+      # Evita que un precio como 12.5 se trunque silenciosamente a 12
+      accept-float-as-int: false
+
+security:
+  jwt:
+    # Debe ser IGUAL al de usuarios-service. Mínimo 32 caracteres.
+    secret: ${JWT_SECRET:cambia-este-secreto-en-produccion-minimo-32-caracteres}
+
+services:
+  usuarios:
+    base-url: ${USUARIOS_SERVICE_URL:http://localhost:8081}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
